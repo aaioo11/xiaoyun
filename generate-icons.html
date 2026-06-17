@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>小云图标生成器</title></head>
+<body>
+  <canvas id="c"></canvas>
+  <script>
+    const canvas = document.getElementById('c');
+    const sizes = [16, 48, 128];
+    sizes.forEach(size => {
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // 渐变背景
+      const grad = ctx.createLinearGradient(0, 0, size, size);
+      grad.addColorStop(0, '#667eea');
+      grad.addColorStop(1, '#764ba2');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(size/2, size/2, size/2, 0, Math.PI*2);
+      ctx.fill();
+
+      // 云朵形状
+      ctx.fillStyle = 'white';
+      ctx.font = `${size * 0.45}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('☁️', size/2, size/2);
+
+      // 下载
+      canvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `icon${size}.png`;
+        a.click();
+      });
+    });
+  </script>
+</body>
+</html>

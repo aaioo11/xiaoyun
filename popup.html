@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小云设置</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-width: 360px;
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    h1 {
+      font-size: 20px;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+    .subtitle {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+
+    /* ===== Tab 导航 ===== */
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      background: #f3f4f6;
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .tab-nav button {
+      flex: 1;
+      padding: 8px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      color: #6b7280;
+      transition: all 0.2s;
+    }
+    .tab-nav button.active {
+      background: white;
+      color: #667eea;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ===== 通用 ===== */
+    .section { margin-bottom: 16px; }
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+    .row label {
+      font-size: 14px;
+      color: #374151;
+      flex-shrink: 0;
+    }
+    .row input, .row select {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+    .row input:focus, .row select:focus { border-color: #667eea; }
+    .row textarea {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      resize: vertical;
+      min-height: 60px;
+      font-family: inherit;
+    }
+    .row textarea:focus { border-color: #667eea; }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #d1d5db;
+      border-radius: 24px;
+      transition: 0.3s;
+    }
+    .slider::before {
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+    .switch input:checked + .slider { background: #667eea; }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .btn-secondary {
+      background: #f3f4f6;
+      color: #374151;
+    }
+    .btn-danger {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 4px 10px;
+      font-size: 12px;
+      width: auto;
+      margin: 0;
+      border-radius: 6px;
+    }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 12px;
+      width: auto;
+      margin: 0;
+    }
+
+    .status {
+      text-align: center;
+      font-size: 12px;
+      color: #9ca3af;
+      padding: 8px;
+    }
+    .status.ok { color: #22c55e; }
+    .status.err { color: #ef4444; }
+
+    /* ===== 知识库面板 ===== */
+    .kb-entry {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fafafa;
+      position: relative;
+    }
+    .kb-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .kb-entry-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .kb-entry-type {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: #667eea;
+      color: white;
+    }
+    .kb-entry-text {
+      font-size: 12px;
+      color: #6b7280;
+      line-height: 1.5;
+      max-height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .kb-entry-delete {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      color: #d1d5db;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .kb-entry-delete:hover { color: #ef4444; background: #fee2e2; }
+
+    .kb-empty {
+      text-align: center;
+      padding: 24px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    .kb-import-area {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed #d1d5db;
+    }
+    .kb-import-area textarea {
+      width: 100%;
+      min-height: 80px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>☁️ 小云助手</h1>
+    <p class="subtitle">闲鱼智能导购 · 全自动回复</p>
+
+    <!-- Tab 导航 -->
+    <div class="tab-nav">
+      <button class="active" data-tab="basic">基本设置</button>
+      <button data-tab="knowledge">知识库</button>
+      <button data-tab="ai">AI 设置</button>
+    </div>
+
+    <!-- Tab 1: 基本设置 -->
+    <div class="tab-panel active" id="tab-basic">
+      <div class="section">
+        <div class="section-title">基本设置</div>
+        <div class="row">
+          <label>总开关</label>
+          <label class="switch">
+            <input type="checkbox" id="enabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="row">
+          <label>自动回复</label>
+          <label class="switch">
+            <input type="checkbox" id="autoReply" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="row">
+          <label>热情度</label>
+          <select id="sensitivity">
+            <option value="calm">安静</option>
+            <option value="normal" selected>正常</option>
+            <option value="enthusiastic">热情</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 2: 知识库 -->
+    <div class="tab-panel" id="tab-knowledge">
+      <div class="section">
+        <div class="section-title">添加知识条目</div>
+        <div class="row" style="flex-direction: column; align-items: stretch;">
+          <label>标题</label>
+          <input type="text" id="kb-title" placeholder="例如：发货说明、商品详情、常见问题" style="margin-bottom: 8px;">
+          <label>类型</label>
+          <select id="kb-type" style="margin-bottom: 8px;">
+            <option value="product">商品信息</option>
+            <option value="faq">常见问题</option>
+            <option value="shipping">发货说明</option>
+            <option value="spec">规格参数</option>
+          </select>
+          <label>内容</label>
+          <textarea id="kb-text" placeholder="输入知识内容，AI 会根据买家消息自动检索相关知识..."></textarea>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="addKbBtn" style="margin-top: 8px; width: 100%;">+ 添加知识</button>
+      </div>
+
+      <div class="section">
+        <div class="section-title">已有知识 (<span id="kb-count">0</span>)</div>
+        <div id="kb-list"></div>
+      </div>
+
+      <div class="kb-import-area">
+        <div class="section-title">批量导入（JSON）</div>
+        <textarea id="kb-import-json" placeholder='[{"title":"商品详情","type":"product","text":"..."}]' style="min-height: 60px;"></textarea>
+        <button class="btn btn-secondary btn-sm" id="importKbBtn" style="margin-top: 8px; width: 100%;">批量导入</button>
+      </div>
+    </div>
+
+    <!-- Tab 3: AI 设置 -->
+    <div class="tab-panel" id="tab-ai">
+      <div class="section">
+        <div class="section-title">AI 设置</div>
+        <div class="row">
+          <label>Provider</label>
+          <select id="provider">
+            <option value="openai">OpenAI</option>
+            <option value="agnes">Agnes-AI</option>
+            <option value="deepseek" selected>DeepSeek</option>
+            <option value="anthropic">Anthropic</option>
+            <option value="zhipu">智谱 GLM</option>
+            <option value="local">Ollama 本地</option>
+          </select>
+        </div>
+        <div class="row">
+          <label>API Key</label>
+          <input type="password" id="apiKey" placeholder="sk-...">
+        </div>
+        <div class="row">
+          <label>自定义模型</label>
+          <input type="text" id="customModel" placeholder="留空则使用默认模型">
+        </div>
+      </div>
+
+      <button class="btn btn-secondary" id="testBtn">测试连接</button>
+      <div class="status" id="status"></div>
+      <button class="btn btn-primary" id="saveBtn">保存设置</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

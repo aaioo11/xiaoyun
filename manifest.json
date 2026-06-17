@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "小云 - 闲鱼智能导购助手",
+  "version": "1.0.0",
+  "description": "Edge 扩展：为闲鱼商品页面注入AI导购助手小云，自动回复买家咨询",
+  "permissions": [
+    "storage",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.goofish.com/*",
+    "https://goofish.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.goofish.com/*",
+        "https://goofish.com/*"
+      ],
+      "js": ["content.js", "xiaoyun-ui.js"],
+      "css": ["xiaoyun-ui.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
