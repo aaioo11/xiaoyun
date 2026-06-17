@@ -52,8 +52,8 @@
 
 1. **下载扩展代码**
    ```bash
-   git clone https://github.com/your-username/xiaoyun-xianyu.git
-   cd xiaoyun-xianyu/extension
+   git clone https://github.com/aaioo11/xiaoyun.git
+   cd xiaoyun/extension
    ```
 
 2. **加载到浏览器**
